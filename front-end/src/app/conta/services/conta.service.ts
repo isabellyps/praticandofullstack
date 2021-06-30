@@ -1,14 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
+import { BaseService } from 'src/app/services/base.service';
 import { Usuario } from '../models/usuario.model';
 
 @Injectable()
-export class ContaService {
+export class ContaService extends BaseService {
     
-    constructor(private htpp: HttpClient) { }
+    constructor(private htpp: HttpClient) { 
+        super();
+    }
 
-    registrarUsuario(usuario: Usuario) {
-
+    registrarUsuario(usuario: Usuario): Observable<Usuario> {
+        let response = this.htpp
+            .post(this.UrlServiceV1 + 'nova-conta', usuario, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError));
+        return response;
     }
 
     login(usuario: Usuario) {
