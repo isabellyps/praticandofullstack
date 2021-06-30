@@ -29,6 +29,13 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.main-container {
+  padding: 25px 15px 100px 15px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow: hidden;
+}
+
 .border {
   &-top {
     border-top: 1px solid #e5e5e5;
