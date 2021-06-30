@@ -2,6 +2,8 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+// regular style toast
+@import '~ngx-toastr/toastr';
 
 a.navbar-brand {
   white-space: normal;

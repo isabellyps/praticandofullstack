@@ -25,7 +25,7 @@ export class MenuLoginComponent {
     return this.token !== null;
   }
 
-  logou() {
+  logout() {
     this.localStorageUtils.limparDadosLocaisUsuario();
     this.router.navigate(['/home']);
   }
