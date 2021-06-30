@@ -1,13 +1,16 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
+import { LocalStorageUtils } from '../conta/utils/localstorage';
+
 export abstract class BaseService {
+  public LocalStorage = new LocalStorageUtils();
   protected UrlServiceV1: string = 'https://localhost:5001/api/V1/';
 
   protected ObterHeaderJson() {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
     };
   }

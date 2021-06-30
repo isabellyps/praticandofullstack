@@ -12,6 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
 import { fromEvent, merge, Observable } from 'rxjs';
 
@@ -39,7 +40,11 @@ export class CadastroComponent implements OnInit, AfterViewInit {
   genericValidator: GenericValidator;
   displayMessage: DisplayMessage = {};
 
-  constructor(private fb: FormBuilder, private contaService: ContaService) {
+  constructor(
+    private fb: FormBuilder,
+    private contaService: ContaService,
+    private router: Router
+  ) {
     this.validationMessages = {
       email: {
         required: 'Informe o e-mail',
@@ -92,19 +97,26 @@ export class CadastroComponent implements OnInit, AfterViewInit {
   adicionarConta() {
     if (this.cadastroForm.dirty && this.cadastroForm.valid) {
       this.usuario = Object.assign({}, this.usuario, this.cadastroForm.value);
-      this.contaService.registrarUsuario(this.usuario)
-        .subscribe(
-          sucesso => {this.processarSucesso(sucesso)},
-          falha => {this.processarFalha(falha)}
-        );
+      this.contaService.registrarUsuario(this.usuario).subscribe(
+        (sucesso) => {
+          this.processarSucesso(sucesso);
+        },
+        (falha) => {
+          this.processarFalha(falha);
+        }
+      );
     }
   }
 
   processarSucesso(response: any) {
-
+    this.cadastroForm.reset();
+    this.errors = [];
+    this.contaService.LocalStorage.salvarDadosLocaisUsuario(response);
+    this.router.navigate(['/home']);
   }
 
   processarFalha(fail: any) {
-
+    this.errors = fail.error.errors;
+    console.log(this.errors);
   }
 }
